@@ -20,15 +20,6 @@ export default function App() {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    const contacts = window.localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
-
-    if (parsedContacts) {
-      setContacts(parsedContacts);
-    }
-  }, []);
-
-  useEffect(() => {
     window.localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
