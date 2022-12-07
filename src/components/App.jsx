@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm';
 import Filter from './Filter';
@@ -44,24 +44,28 @@ export default function App() {
     setFilter(e.currentTarget.value);
   };
 
-  const filterContacts = useMemo(() => {
+  const filterContacts = () => {
     const normalizeFilter = filter.toLowerCase();
     return contacts.filter(({ name }) =>
       name.toLowerCase().includes(normalizeFilter)
     );
-  }, [filter, contacts]);
+  };
 
   const deleteContact = id => {
     setContacts(prevState => prevState.filter(contact => contact.id !== id));
   };
 
+  const filteredContacts = filterContacts();
   return (
     <Container>
       <MainTitle>Phonebook</MainTitle>
       <ContactForm onSubmitForm={formSubmitHandler} />
       <Filter filter={filter} onChange={changeFilter} />
       <SubTitle>Contacts</SubTitle>
-      <ContactList contacts={filterContacts} onDeleteContact={deleteContact} />
+      <ContactList
+        contacts={filteredContacts}
+        onDeleteContact={deleteContact}
+      />
     </Container>
   );
 }
